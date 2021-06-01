@@ -3,6 +3,6 @@ from django.urls import path,include
 from .views import MovieViewset,MovieDetailViewset
 
 urlpatterns = [
-    path('list/', MovieViewset),
-    path('list/<int:pk>', MovieDetailViewset),
+    path('list/', MovieViewset.as_view()),
+    path('list/<int:pk>', MovieDetailViewset.as_view()),
 ]
