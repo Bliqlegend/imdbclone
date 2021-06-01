@@ -1,25 +1,52 @@
 from rest_framework import serializers
-from .models import Movie
+from .models import Movie,StreamPlatforms
 
-class MovieSerializer(serializers.Serializer):
-    id  = serializers.IntegerField(read_only=True)
-    name = serializers.CharField(max_length=255)
-    active  = serializers.BooleanField()
-    description  = serializers.CharField(max_length=255)
+class StreamPlatform(serializers.ModelSerializer):
+    class Meta:
+        model = StreamPlatforms
+        fields = "__all__"
 
-    def create(self,validated_data):
-        return Movie.objects.create(**validated_data)
+
+class MovieSerializer(serializers.ModelSerializer):
+    len_name = serializers.SerializerMethodField()
+
     
-    def update(self,instance,validated_data):
-        instance.name = validated_data.get('name',instance.name)
-        instance.description = validated_data.get('description',instance.description)
-        instance.active = validated_data.get('active',instance.active)
-        instance.save()
-        return instance
+    class Meta:
+        model = Movie
+        # fields = "__all__"
+        fields = "__all__"
 
-    def validate_name(self,value):
+    def get_len_name(self,object):
+        leng = len(object.name)
+        return leng
 
-        if len(value) < 2:
-            raise serializers.ValidationError("Name is Too Short")
-        else:
-            return value
+
+# class MovieSerializer(serializers.Serializer):
+#     id  = serializers.IntegerField(read_only=True)
+#     name = serializers.CharField(max_length=255)
+#     active  = serializers.BooleanField()
+#     description  = serializers.CharField(max_length=255)
+
+#     def create(self,validated_data):
+#         return Movie.objects.create(**validated_data)
+    
+#     def update(self,instance,validated_data):
+#         instance.name = validated_data.get('name',instance.name)
+#         instance.description = validated_data.get('description',instance.description)
+#         instance.active = validated_data.get('active',instance.active)
+#         instance.save()
+#         return instance
+    
+#     def validate(self,data):
+#         if data['name'] == data['description']:
+#             raise serializers.ValidationError("Name and Description should be different")
+#         else:
+#             return data
+
+#     def validate_name(self,value):
+
+#         if len(value) < 2:
+#             raise serializers.ValidationError("Name is Too Short")
+#         else:
+#             return value
+
