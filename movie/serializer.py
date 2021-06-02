@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Movie,StreamPlatforms
 
-class StreamPlatform(serializers.ModelSerializer):
+class SpSerialzier(serializers.ModelSerializer):
     class Meta:
         model = StreamPlatforms
         fields = "__all__"

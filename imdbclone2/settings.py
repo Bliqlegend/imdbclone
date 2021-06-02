@@ -75,17 +75,28 @@ WSGI_APPLICATION = 'imdbclone2.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
+# DATABASES = {
+# "default": {
+#     "ENGINE": "djongo",
+#     "CLIENT": {
+#         "host": "mongodb+srv://ccubenGSCx2:ccubenGSCx2@backendformdb.99gfa.mongodb.net/?retryWrites=true&w=majority",
+#         "username": "ccubenGSCx2",
+#         "password": "ccubenGSCx2",
+#         "name": "moviedb",
+#         "authMechanism": "SCRAM-SHA-1",
+#     },
+# }}
+
 DATABASES = {
-"default": {
-    "ENGINE": "djongo",
-    "CLIENT": {
-        "host": "mongodb+srv://ccubenGSCx2:ccubenGSCx2@backendformdb.99gfa.mongodb.net/?retryWrites=true&w=majority",
-        "username": "ccubenGSCx2",
-        "password": "ccubenGSCx2",
-        "name": "moviedb",
-        "authMechanism": "SCRAM-SHA-1",
-    },
-}}
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
+
+
+
+
 
 
 # Password validation

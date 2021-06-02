@@ -1,12 +1,47 @@
 import re
 from django.shortcuts import render
-from .serializer import MovieSerializer
+from .serializer import MovieSerializer,SpSerialzier
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Movie
+from .models import Movie,StreamPlatforms
 from rest_framework import status
 # Create your views here.
+class StreamPlatformViewset(APIView):
+    def get(self,request):
+        platform = StreamPlatforms.objects.all()
+        serializer = SpSerialzier(platform,many=True)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def post(self,request):
+        serializer =  SpSerialzier(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+class SpdetailViewset(APIView):
+
+    def get(self, request,pk):
+        platform = StreamPlatforms.objects.get(pk=pk)
+        serializer = SpSerialzier(platform)
+        return Response(serializer.data,status=status.HTTP_200_OK)
+
+    def put(self, request,pk):
+        platform = StreamPlatforms.objects.get(pk=pk)
+        serializer = SpSerialzier(platform,data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data,status=status.HTTP_201_CREATED)
+        else:
+            return Response(serializer.errors,status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self,request,pk):
+        platform = StreamPlatforms.objects.get(pk=pk)
+        platform.delete()
+        serializer = SpSerialzier(platform)
+        return Response(serializer.data,status=status.HTTP_204_NO_CONTENT)
 
 class MovieViewset(APIView):
 
