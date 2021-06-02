@@ -12,6 +12,7 @@ class StreamPlatforms(models.Model):
 class Movie(models.Model):
     name = models.CharField(max_length=255)
     active = models.BooleanField(default=False,blank=True)
+    platform = models.ForeignKey(StreamPlatforms,on_delete=models.CASCADE,related_name="movies")
     description = models.CharField(max_length=255)
     created = models.DateTimeField(auto_now_add=True)
 

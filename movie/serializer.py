@@ -1,11 +1,6 @@
 from rest_framework import serializers
 from .models import Movie,StreamPlatforms
 
-class SpSerialzier(serializers.ModelSerializer):
-    class Meta:
-        model = StreamPlatforms
-        fields = "__all__"
-
 
 class MovieSerializer(serializers.ModelSerializer):
     len_name = serializers.SerializerMethodField()
@@ -20,6 +15,14 @@ class MovieSerializer(serializers.ModelSerializer):
         leng = len(object.name)
         return leng
 
+
+
+class SpSerialzier(serializers.ModelSerializer):
+    movies = MovieSerializer(many=True,read_only=True)
+
+    class Meta:
+        model = StreamPlatforms
+        fields = "__all__"
 
 # class MovieSerializer(serializers.Serializer):
 #     id  = serializers.IntegerField(read_only=True)
