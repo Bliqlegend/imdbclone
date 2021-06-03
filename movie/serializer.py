@@ -17,11 +17,11 @@ class MovieSerializer(serializers.ModelSerializer):
 
 
 
-class SpSerialzier(serializers.ModelSerializer):
-    # movies = MovieSerializer(many=True,read_only=True)
-    movies = serializers.HyperlinkedRelatedField(
-        many=True,read_only=True,view_name="movie-detail"
-    )
+class SpSerialzier(serializers.HyperlinkedModelSerializer):
+    movies = MovieSerializer(many=True,read_only=True)
+    # movies = serializers.HyperlinkedRelatedField(
+    #     many=True,read_only=True,view_name="movie-detail"
+    # )
 
     class Meta:
         model = StreamPlatforms

@@ -25,7 +25,7 @@ class SpdetailViewset(APIView):
 
     def get(self, request,pk):
         platform = StreamPlatforms.objects.get(pk=pk)
-        serializer = SpSerialzier(platform)
+        serializer = SpSerialzier(platform,context={'request': request})
         return Response(serializer.data,status=status.HTTP_200_OK)
 
     def put(self, request,pk):
@@ -47,7 +47,7 @@ class MovieViewset(APIView):
 
     def get(self, request):
         movie = Movie.objects.all()
-        serializer = MovieSerializer(movie,many=True)
+        serializer = MovieSerializer(movie,many=True,context={'request': request})
         return Response(serializer.data,status=status.HTTP_200_OK)
     
     def post(self, request):
