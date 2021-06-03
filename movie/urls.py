@@ -4,7 +4,7 @@ from .views import MovieViewset,MovieDetailViewset,StreamPlatformViewset,Spdetai
 
 urlpatterns = [
     path('list/', MovieViewset.as_view()),
-    path('list/<int:pk>', MovieDetailViewset.as_view()),
+    path('list/<int:pk>', MovieDetailViewset.as_view(),name='movie-detail'),
     path('platform/',StreamPlatformViewset.as_view()),
     path('platform/<int:pk>', SpdetailViewset.as_view())
 ]

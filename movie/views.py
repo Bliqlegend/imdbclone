@@ -10,7 +10,7 @@ from rest_framework import status
 class StreamPlatformViewset(APIView):
     def get(self,request):
         platform = StreamPlatforms.objects.all()
-        serializer = SpSerialzier(platform,many=True)
+        serializer = SpSerialzier(platform,many=True,context={'request': request})
         return Response(serializer.data,status=status.HTTP_200_OK)
 
     def post(self,request):
