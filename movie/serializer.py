@@ -2,7 +2,7 @@ from django.db import models
 from rest_framework import serializers
 from .models import Movie,StreamPlatforms,Review
 
-class ReviewSerialzier(serializers.ModelSerializer):
+class ReviewSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
@@ -11,7 +11,7 @@ class ReviewSerialzier(serializers.ModelSerializer):
 
 class MovieSerializer(serializers.ModelSerializer):
     len_name = serializers.SerializerMethodField()
-    review = ReviewSerialzier(many=True,read_only=True)
+    review = ReviewSerializer(many=True,read_only=True)
 
     
     class Meta:
