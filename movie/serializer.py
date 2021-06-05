@@ -1,6 +1,12 @@
 from django.db import models
 from rest_framework import serializers
-from .models import Movie,StreamPlatforms,Review,Upcoming
+from .models import Movie,StreamPlatforms,Review,Upcoming,Genre
+
+class GenreSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Genre
+        fields = "__all__"
+
 
 class UpcomingSerializer(serializers.ModelSerializer):
     class Meta:

@@ -2,6 +2,8 @@ from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator
 
 # Create your models here.
+
+
 class Upcoming(models.Model):
     name = models.CharField(max_length=244)
     url = models.URLField(max_length=255)
@@ -45,3 +47,12 @@ class Review(models.Model):
         return str(self.rating) + "-" + self.movie.name 
 
 
+
+class Genre(models.Model):
+    name = models.CharField(max_length=255) 
+    movies = models.ForeignKey(Movie,related_name="genres",on_delete=models.CASCADE)
+    description = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name

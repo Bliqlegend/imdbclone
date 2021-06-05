@@ -1,15 +1,19 @@
 import re
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render
-from .serializer import MovieSerializer,SpSerialzier,ReviewSerializer,UpcomingSerializer
+from .serializer import MovieSerializer,SpSerialzier,ReviewSerializer,UpcomingSerializer,GenreSerializer
 from rest_framework.decorators import api_view
 from rest_framework.views import APIView
 from rest_framework.response import Response
-from .models import Movie,StreamPlatforms,Review,Upcoming
+from .models import Movie,StreamPlatforms,Review,Upcoming,Genre
 from rest_framework import serializers, status
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import viewsets
+
+class GenreViewset(viewsets.ModelViewSet):
+    queryset = Genre.objects.all()
+    serializer_class = GenreSerializer
 
 class UpcomingViewset(viewsets.ViewSet):
     def list(self,request):
