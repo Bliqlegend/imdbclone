@@ -1,0 +1,1 @@
+web: gunicorn imdbclone2.wsgi
