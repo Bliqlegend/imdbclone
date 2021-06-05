@@ -1,6 +1,6 @@
 from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 
@@ -36,6 +36,7 @@ class Movie(models.Model):
 
 
 class Review(models.Model):
+    username = models.ForeignKey(User,on_delete=models.CASCADE)
     rating = models.PositiveIntegerField(validators=[MinValueValidator(0),MaxValueValidator(5)])
     movie = models.ForeignKey(Movie, related_name='reviews',on_delete=models.CASCADE)
     description = models.CharField(max_length=255)

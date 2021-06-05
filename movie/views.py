@@ -10,6 +10,7 @@ from rest_framework import serializers, status
 from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import viewsets
+from rest_framework.exceptions import ValidationError
 
 class GenreViewset(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
@@ -48,9 +49,26 @@ class UpcomingViewset(viewsets.ViewSet):
         serializer = UpcomingSerializer(upcoming)
         return Response(serializer.data,status=status.HTTP_204_NO_CONTENT)
 
-class ReviewViewset(generics.ListCreateAPIView):
+class ReviewViewset(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+    
+class ReviewCreateViewset(generics.CreateAPIView):
+    serializer_class = ReviewSerializer
+
+    def get_queryset(self):
+        return Review.objects.all()
+
+    def perform_create(self,serializer):
+        pk = self.kwargs.get('pk')
+        movie = Movie.objects.get(pk=pk)
+        review_user = self.request.user
+        review_queryset = Review.objects.filter(movie=movie,username=review_user)
+        if review_queryset.exists():
+            raise ValidationError("You Have already added a Review for this movie")
+        else:
+            serializer.save(movie=movie,username=review_user)
 
 class ReviewDetailViewset(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all() 
