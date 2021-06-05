@@ -2,7 +2,12 @@ from django.contrib import admin
 from django.urls import path,include
 from .views import (MovieViewset,MovieDetailViewset,
                 StreamPlatformViewset,SpdetailViewset,
-                ReviewViewset,ReviewDetailViewset)
+                ReviewViewset,ReviewDetailViewset,
+                UpcomingViewset)
+from rest_framework.routers import DefaultRouter
+
+router = DefaultRouter()
+router.register(r'upcoming',UpcomingViewset,basename='upcoming')
 
 urlpatterns = [
     path('list/', MovieViewset.as_view(), name='movie-lsit'),
@@ -10,5 +15,7 @@ urlpatterns = [
     path('platform/',StreamPlatformViewset.as_view(),name='stream-platform'),
     path('platform/<int:pk>', SpdetailViewset.as_view(),name='streamplatforms-detail'),
     path('review/<int:pk>/',ReviewDetailViewset.as_view(),name='review-detail'),
-    path('review/', ReviewViewset.as_view(),name='review')
+    path('review/', ReviewViewset.as_view(),name='review'),
+    path('',include(router.urls))
 ]
+

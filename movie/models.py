@@ -2,6 +2,15 @@ from django.db import models
 from django.core.validators import MinValueValidator,MaxValueValidator
 
 # Create your models here.
+class Upcoming(models.Model):
+    name = models.CharField(max_length=244)
+    url = models.URLField(max_length=255)
+    description = models.CharField(max_length=255)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
 class StreamPlatforms(models.Model):
     name = models.CharField(max_length=30)
     aboutype = models.CharField(max_length=255)
