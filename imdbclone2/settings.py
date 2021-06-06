@@ -25,7 +25,7 @@ SECRET_KEY = 'm2!ag#$sy+k_f5=md9$+_88sjoyls$*n2c^*n%g97a&g_5%zh6'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['imdb-clone-django.herokuapp.com']
+ALLOWED_HOSTS = ['imdb-clone-django.herokuapp.com','127.0.0.1']
 
 
 # Application definition
@@ -143,3 +143,11 @@ STATIC_ROOT = os.path.join(BASE_DIR,"static")
 
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+
+# REST_FRAMEWORK = {
+#     'DEFAULT_PERMISSION_CLASSES': [
+#         'rest_framework.permissions.IsAuthenticated',
+#     ]
+# }

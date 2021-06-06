@@ -1,5 +1,6 @@
 import re
 from django.shortcuts import get_object_or_404
+from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
 from django.shortcuts import render
 from .serializer import MovieSerializer,SpSerialzier,ReviewSerializer,UpcomingSerializer,GenreSerializer
 from rest_framework.decorators import api_view
@@ -11,6 +12,7 @@ from rest_framework import mixins
 from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.exceptions import ValidationError
+from .permissions import AdminorReadonly,ReviewUserorReadonly
 
 class GenreViewset(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
@@ -48,13 +50,17 @@ class UpcomingViewset(viewsets.ViewSet):
         upcoming.delete()
         serializer = UpcomingSerializer(upcoming)
         return Response(serializer.data,status=status.HTTP_204_NO_CONTENT)
-
+ 
 class ReviewViewset(generics.ListAPIView):
+    permission_classes = [AdminorReadonly]
+    
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+
     
 class ReviewCreateViewset(generics.CreateAPIView):
+    permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = ReviewSerializer
 
     def get_queryset(self):
@@ -71,6 +77,7 @@ class ReviewCreateViewset(generics.CreateAPIView):
             serializer.save(movie=movie,username=review_user)
 
 class ReviewDetailViewset(generics.RetrieveUpdateDestroyAPIView):
+    permission_classes = [ReviewUserorReadonly]
     queryset = Review.objects.all() 
     serializer_class = ReviewSerializer
 
