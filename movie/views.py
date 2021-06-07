@@ -73,8 +73,14 @@ class ReviewCreateViewset(generics.CreateAPIView):
         review_queryset = Review.objects.filter(movie=movie,username=review_user)
         if review_queryset.exists():
             raise ValidationError("You Have already added a Review for this movie")
+        if movie.number_rating == 0:
+            movie.avg_rating = serializer.validated_data['rating']
         else:
-            serializer.save(movie=movie,username=review_user)
+            movie.avg_rating = (movie.avg_rating + serializer.validated_data['rating'])/2
+        movie.number_rating = movie.number_rating +1
+        movie.save()
+        # else:
+        serializer.save(movie=movie,username=review_user)
 
 class ReviewDetailViewset(generics.RetrieveUpdateDestroyAPIView):
     permission_classes = [ReviewUserorReadonly]
