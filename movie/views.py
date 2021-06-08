@@ -52,7 +52,7 @@ class UpcomingViewset(viewsets.ViewSet):
         return Response(serializer.data,status=status.HTTP_204_NO_CONTENT)
  
 class ReviewViewset(generics.ListAPIView):
-    permission_classes = [AdminorReadonly]
+    permission_classes = [IsAuthenticated]
     
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
