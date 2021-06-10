@@ -20,4 +20,3 @@ urlpatterns = [
     path('review/', ReviewViewset.as_view(),name='review'),
     path('',include(router.urls)),
 ]
-
