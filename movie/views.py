@@ -144,6 +144,8 @@ class SpdetailViewset(APIView):
         return Response(serializer.data,status=status.HTTP_204_NO_CONTENT)
 
 class MovieViewset(APIView):
+    permission_classes = [AdminorReadonly]
+     
 
     def get(self, request):
         movie = Movie.objects.all()
@@ -160,6 +162,7 @@ class MovieViewset(APIView):
 
 
 class MovieDetailViewset(APIView):
+    permission_classes = [AdminorReadonly]
 
     def get(self, request,pk):
         movie =  Movie.objects.get(pk=pk)
