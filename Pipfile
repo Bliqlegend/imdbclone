@@ -9,6 +9,7 @@ djangorestframework = "*"
 djongo = "*"
 dnspython = "*"
 gunicorn = "*"
+djangorestframework-simplejwt = "*"
 
 [dev-packages]
 
