@@ -145,7 +145,7 @@ class SpdetailViewset(APIView):
 
 class MovieViewset(APIView):
     permission_classes = [AdminorReadonly]
-    
+     
 
     def get(self, request):
         movie = Movie.objects.all()
