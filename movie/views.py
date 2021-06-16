@@ -13,6 +13,7 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.exceptions import ValidationError
 from .permissions import AdminorReadonly,ReviewUserorReadonly
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
 
 class GenreViewset(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
@@ -53,6 +54,7 @@ class UpcomingViewset(viewsets.ViewSet):
  
 class ReviewViewset(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
+    throttle_classes = [UserRateThrottle,AnonRateThrottle]
     
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
