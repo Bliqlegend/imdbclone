@@ -1,3 +1,4 @@
+import movie
 import re
 from django.shortcuts import get_object_or_404
 from rest_framework.permissions import IsAuthenticated,IsAuthenticatedOrReadOnly
@@ -13,9 +14,22 @@ from rest_framework import generics
 from rest_framework import viewsets
 from rest_framework.exceptions import ValidationError
 from .permissions import AdminorReadonly,ReviewUserorReadonly
-from rest_framework.throttling import UserRateThrottle, AnonRateThrottle
+from rest_framework.throttling import UserRateThrottle, AnonRateThrottle,ScopedRateThrottle
 from user_app.throttling import ReviewCreateThrottle,ReviewListThrottle
 
+class UserReView(generics.ListAPIView):
+    serializer_class = ReviewSerializer
+    # throttle_classes = [ReviewListThrottle,AnonRateThrottle]
+
+    # def get_queryset(self):
+        # username = self.kwargs['username']
+        # return Review.objects.filter(username__username=username) 
+        # Decorator to get username instead of userID
+    
+    def get_queryset(self):
+        username = self.request.query_params.get('username',None)
+        return Review.objects.filter(username__username=username) 
+ 
 class GenreViewset(viewsets.ModelViewSet):
     queryset = Genre.objects.all()
     serializer_class = GenreSerializer
@@ -56,7 +70,7 @@ class UpcomingViewset(viewsets.ViewSet):
 class ReviewViewset(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
     # throttle_classes = [UserRateThrottle,AnonRateThrottle]
-    throttle_classes =[ReviewListThrottle]
+    # throttle_classes =[ReviewListThrottle]
     
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
@@ -66,7 +80,7 @@ class ReviewViewset(generics.ListAPIView):
 class ReviewCreateViewset(generics.CreateAPIView):
     permission_classes = [IsAuthenticatedOrReadOnly]
     serializer_class = ReviewSerializer
-    throttle_classes = [ReviewCreateThrottle]
+    # throttle_classes = [ReviewCreateThrottle]
 
     def get_queryset(self):
         return Review.objects.all()
