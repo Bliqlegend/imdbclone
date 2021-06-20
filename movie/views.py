@@ -16,6 +16,8 @@ from rest_framework.exceptions import ValidationError
 from .permissions import AdminorReadonly,ReviewUserorReadonly
 from rest_framework.throttling import UserRateThrottle, AnonRateThrottle,ScopedRateThrottle
 from user_app.throttling import ReviewCreateThrottle,ReviewListThrottle
+from django_filters.rest_framework import DjangoFilterBackend
+
 
 class UserReView(generics.ListAPIView):
     serializer_class = ReviewSerializer
@@ -69,6 +71,8 @@ class UpcomingViewset(viewsets.ViewSet):
  
 class ReviewViewset(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['username__username','active']
     # throttle_classes = [UserRateThrottle,AnonRateThrottle]
     # throttle_classes =[ReviewListThrottle]
     
