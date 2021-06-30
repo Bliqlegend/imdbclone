@@ -6,7 +6,6 @@ from .views import (MovieViewset,MovieDetailViewset,
                 UpcomingViewset,GenreViewset,UserReView)
 from rest_framework.routers import DefaultRouter
 
-
 router = DefaultRouter()
 router.register(r'upcoming',UpcomingViewset,basename='upcoming')
 router.register(r'genre',GenreViewset,basename='genre')
